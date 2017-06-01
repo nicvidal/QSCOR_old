@@ -1,0 +1,198 @@
+{% extends "@QSCOR/Workspace/index.html.twig" %}
+{% block menuapplication %}
+    <ul class="vertical menu menucanvas menuapplicationindex" data-accordion-menu>
+        <li>
+            <a href="#" style="color: #FBFCF7">{{ projectname }}</a>
+            <ul class="menu vertical is-active" >
+                <li{% if app.session.get('routename') == 'networking' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('networking',{'projectname' : projectname}) }}" style="font-size: 15px; color: #FBFCF7"><i class="step fi-map" style="font-size: 24px"></i>Networking</a>
+                    {% if app.session.get('routename') == 'networking' %}
+                        <ul class="menu vertical is-active" >
+                            <li><a href="{{ path('networking',{'projectname' : projectname} ) }}" style="font-size: 15px; color: #FBFCF7">Networking</a>
+                            </li>
+                            <li class="
+                                                    {% if app.session.get('routename') == 'networking' or
+                            app.request.attributes.get('_route') == 'company_new' or
+                            app.request.attributes.get('_route') == 'company_index' or
+                            app.request.attributes.get('_route') == 'company_edit'
+                            %}appactive{% endif %}">
+                                <a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                            <li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                            <li><a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                            <li><a href="{{ path('flow_site_index',{'projectname' : projectname}) }}" style="font-size: 12px; color: #FBFCF7">Flow Sites</a></li>
+                            <li>
+
+                                <div class="btnnetworking">
+                                    <a href="{{ path('networkingmaps', {'projectname': app.request.attributes.get('projectname')}) }}" >
+                                        Show Network
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+
+
+                    {% endif %}
+
+                </li>
+                <li{% if app.session.get('routename') == 'modelling' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('modelling',{'projectname' : projectname}) }}" style="font-size: 15px; color: #FBFCF7"><i class="step fi-shuffle" style="font-size: 24px"></i>Modelling</a>
+                    {% if app.session.get('routename') == 'modelling' %}
+                        <ul class="menu vertical is-active" >
+                            <li>
+                                <a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                            <li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                            <li><a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                            <li class="
+                                                {% if app.session.get('routename') == 'modelling' or
+                            app.request.attributes.get('_route') == 'company_new' or
+                            app.request.attributes.get('_route') == 'company_index' or
+                            app.request.attributes.get('_route') == 'company_edit'
+                            %}appactive{% endif %}">
+                           <li><a href="{{ path('niveau',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; "> Settings Niveau</a>
+                            {% if app.session.get('routename') == 'modelling' %}
+                                <ul class="menu vertical is-active" >
+                                    {#<li>#}
+                                        {#<a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>#}
+                                    {#<li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>#}
+                                    {#<li><a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>#}
+                                    <li class="
+                                    {% if app.session.get('routename') == 'modelling' or
+                                    app.request.attributes.get('_route') == 'company_new' or
+                                    app.request.attributes.get('_route') == 'company_index' or
+                                    app.request.attributes.get('_route') == 'company_edit'
+                                    %}appactive{% endif %}">
+                                    <li><a href="{{ path('niveau',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Niveau1</a></li>
+                                    <li><a href="{{ path('niveau',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Niveau2</a></li>
+
+                                </ul>
+                           </li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+
+                </li>
+
+
+                <li {% if app.request.attributes.get('_route') == 'performance' %}
+                    class="active"
+                {% endif %}
+                ><a href="{{ path('performance',{'projectname' : projectname}) }}" style="font-size: 15px;color: #FBFCF7"><i class="step fi-graph-bar" style="font-size: 24px"></i>Performance</a>
+                <li {% if   app.request.attributes.get('_route') == 'project_edit' %}
+                    class="active"
+                {% endif %}
+                ><a href="{{ path('project_edit',{'projectname' : projectname,'id': app.session.get('projectid')| urlencrypt}) }}" style="font-size: 15px;color: #FBFCF7"><i class="step fi-widget" style="font-size: 24px"></i>Settings Projects</a>
+
+            </ul>
+        </li>
+
+
+    </ul>
+{% endblock %}
+{% block workspace %}
+
+<script src="{{ asset('bower_components/dragula.js/dist/dragula.min.js')}}"></script>
+
+{#<script src="{{ asset('bower_components/dragula.js/example/example.min.js')}}"></script>#}
+
+
+
+    <h4>Level One Select Blocks</h4>
+<div class="warperdragula">
+
+    <div id='left-defaults' class='containerdragula'>
+        <div id="plan">Plan</div>
+        <div id="source">Source</div>
+        <div id="deliver">Deliver</div>
+        <div id="make">Make</div>
+        <div id="return">Return</div>
+    </div>
+    <div id='right-defaults' class='containerdragula'>
+
+
+    </div>
+</div>
+<div class="class" id="addcomment" style="display: none">
+    this div for add comments okkk
+    <input id="planb" class="input" style="color: #0a0a0a">
+    <input id="deliverb" class="input" style="color: #0a0a0a">
+    <input id="sourceb" class="input" style="color: #0a0a0a">
+    <input id="makeb" class="input" style="color: #0a0a0a">
+    <input id="returnb" class="input" style="color: #0a0a0a">
+
+</div>
+<script>
+//    dragula([document.getElementById('#left-defaults'), document.getElementById('#right-defaults')]);
+       dragula([document.querySelector('#left-defaults'), document.querySelector('#right-defaults')],{
+           copy: function (el, source) {
+               return false;
+           },
+           accepts: function (el,source) {
+               console.log(source.id);
+               document.getElementById('addcomment').style = 'inline-block';
+              if(source.id == 'right-defaults') {
+                  switch (el.id) {
+                      case 'plan':
+                          document.getElementById('planb').value = 'plan';
+                          break;
+                      case 'deliver':
+                          document.getElementById('deliverb').value = 'deliver';
+                          break;
+                      case 'source':
+                          document.getElementById('sourceb').value = el.id;
+                          break;
+                      case 'make':
+                          document.getElementById('makeb').value = el.id;
+                          break;
+                      case 'return':
+                          document.getElementById('returnb').value = el.id;
+                          break;
+                      //                  default:
+                      //                      document.getElementById('planb').value = 'null';
+                      //                      document.getElementById('sourceb').value = 'null';
+                      //                      document.getElementById('deliverb').value = 'null';
+                      //                      document.getElementById('makeb').value = 'null';
+                      //                      document.getElementById('returnb').value = 'null';
+
+
+                  }
+              }else{
+                  switch (el.id) {
+                      case 'plan':
+                          document.getElementById('planb').value = 'null';
+                          break;
+                      case 'deliver':
+                          document.getElementById('deliverb').value = 'null';
+                          break;
+                      case 'source':
+                          document.getElementById('sourceb').value = 'null';
+                          break;
+                      case 'make':
+                          document.getElementById('makeb').value = 'null';
+                          break;
+                      case 'return':
+                          document.getElementById('returnb').value = 'null';
+                          break;
+                  }
+
+              }
+               return true;
+           },
+           revertOnSpill: true,
+       });
+
+
+
+//   console.log(document.getElementById('#right-defaults').attr("id"));
+
+
+
+</script>
+
+
+
+
+{% endblock %}

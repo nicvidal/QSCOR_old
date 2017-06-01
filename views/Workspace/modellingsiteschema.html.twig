@@ -1,0 +1,185 @@
+{% extends "@QSCOR/Workspace/index.html.twig" %}
+{% block menuapplication %}
+    <ul class="vertical menu menucanvas menuapplicationindex" data-accordion-menu>
+        <li>
+            <a href="#" style="color: #FBFCF7">{{ projectname }}</a>
+            <ul class="menu vertical is-active" >
+                <li{% if app.session.get('routename') == 'networking' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('networking',{'projectname' : projectname}) }}" style="font-size: 15px; color: #FBFCF7"><i class="step fi-map" style="font-size: 24px"></i>Networking</a>
+                    {% if app.session.get('routename') == 'networking' %}
+                        <ul class="menu vertical is-active" >
+                            <li><a href="{{ path('networking',{'projectname' : projectname} ) }}" style="font-size: 15px; color: #FBFCF7">Networking</a>
+                            </li>
+                            <li class="
+                                                    {% if app.session.get('routename') == 'networking' or
+                            app.request.attributes.get('_route') == 'company_new' or
+                            app.request.attributes.get('_route') == 'company_index' or
+                            app.request.attributes.get('_route') == 'company_edit'
+                            %}appactive{% endif %}">
+                                <a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                            <li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                            <li><a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                            <li><a href="{{ path('flow_site_index',{'projectname' : projectname}) }}" style="font-size: 12px; color: #FBFCF7">Flow Sites</a></li>
+                            <li>
+
+                                <div class="btnnetworking">
+                                    <a href="{{ path('networkingmaps', {'projectname': app.request.attributes.get('projectname')}) }}" >
+                                        Show Network
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+
+
+                    {% endif %}
+
+                </li>
+                <li{% if app.session.get('routename') == 'modelling' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('modelling',{'projectname' : projectname}) }}" style="font-size: 15px; color: #FBFCF7"><i class="step fi-shuffle" style="font-size: 24px"></i>Modelling</a>
+                    {% if app.session.get('routename') == 'modelling' %}
+                        <ul class="menu vertical is-active" >
+                            <li>
+                                <a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                            <li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                            <li><a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                            <li class="
+                                                {% if app.session.get('routename') == 'modelling' or
+                            app.request.attributes.get('_route') == 'company_new' or
+                            app.request.attributes.get('_route') == 'company_index' or
+                            app.request.attributes.get('_route') == 'company_edit'
+                            %}appactive{% endif %}">
+                            <li>
+
+                                <div class="btnnetworking">
+                                    <a href="{{ path('modellingschema', {'projectname': app.request.attributes.get('projectname'), 'idsite': app.request.attributes.get('idsite')}) }}" >
+                                        Show Modelling for this Site
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    {% endif %}
+
+                </li>
+
+
+                <li {% if app.request.attributes.get('_route') == 'performance' %}
+                    class="active"
+                {% endif %}
+                ><a href="{{ path('performance',{'projectname' : projectname}) }}" style="font-size: 15px;color: #FBFCF7"><i class="step fi-graph-bar" style="font-size: 24px"></i>Performance</a>
+                <li {% if   app.request.attributes.get('_route') == 'project_edit' %}
+                    class="active"
+                {% endif %}
+                ><a href="{{ path('project_edit',{'projectname' : projectname,'id': app.session.get('projectid')| urlencrypt}) }}" style="font-size: 15px;color: #FBFCF7"><i class="step fi-widget" style="font-size: 24px"></i>Settings Projects</a>
+
+            </ul>
+        </li>
+
+
+    </ul>
+{% endblock %}
+{% block workspace %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages:["orgchart"]});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var obj = {{ sites|json_encode|raw }};
+            var myObject = eval('[' + obj + ']');
+
+
+            var data = new google.visualization.DataTable();
+
+            data.addColumn('string', 'Name');
+            data.addColumn('string', 'Manager');
+            data.addColumn('string', 'ToolTip');
+
+//            alert(myObject[0]['level'][0]['levelsTypes'][0]['libelleType']);
+//            for(i = 0 ; i < myObject.length ; i++) {
+
+
+//            }
+
+            // For each orgchart box, provide the name, manager, and tooltip to show.
+//            data.addRow([
+//                [{v:myObject[0]['name'], f:'<div style="color: #000000">'+myObject[0]['name']+'</div>'},
+//                    '', 'The President']
+//            ])
+            data.addRows([
+                [{v:myObject[0]['name'], f:'<div style="color: #000000">'+myObject[0]['name'].toUpperCase()+'</div>'},
+                    '', 'The President'],
+
+//                ['Bob', 'Jim', 'Bob Sponge'],
+//                ['Carol', 'Bob', '']
+//                ['Alice', myObject[0]['name'], ''],
+            ]);
+            for(i = 0 ; i < myObject[0]['level'][0]['levelsTypes'].length; i++ ) {
+                data.addRows([
+                    [{
+                        v: myObject[0]['level'][0]['levelsTypes'][i]['libelleType'],
+                        f: '<div style="color: #000000">' + myObject[0]['level'][0]['levelsTypes'][i]['libelleType'].toUpperCase() + '</div>'
+                    },
+                        myObject[0]['name'], 'VP'],
+
+
+                ]);
+
+                for(j = 0 ; j < myObject[0]['level'][0]['levelsTypes'][i]['blockType'].length; j++ ) {
+                    data.addRows([
+                        [{
+                            v: myObject[0]['level'][0]['levelsTypes'][i]['blockType'][j]['libelleAbr'],
+                            f: '<div style="color: #000000">'
+                            + myObject[0]['level'][0]['levelsTypes'][i]['blockType'][j]['libelleBlocksType'] +
+                                    '<div style="font-weight: blod">'+myObject[0]['level'][0]['levelsTypes'][i]['blockType'][j]['libelleAbr'] +'</div>'+
+                            '</div>'
+                        },
+                            myObject[0]['level'][0]['levelsTypes'][i]['libelleType'], 'VP'],
+
+
+                    ]);
+                    for(k = 0 ; k < myObject[0]['level'][0]['levelsTypes'][i]['blockType'][j]['processBlocks'].length; k++ ){
+                        data.addRows([
+                            [{
+                                v: myObject[0]['level'][0]['levelsTypes'][i]['blockType'][j]['processBlocks'][k]['libelleType'],
+                                f: '<div style="color: #000000">'
+                                + myObject[0]['level'][0]['levelsTypes'][i]['blockType'][j]['processBlocks'][k]['libelleType'] +
+                                '<div style="font-weight: blod">'+myObject[0]['level'][0]['levelsTypes'][i]['blockType'][j]['processBlocks'][k]['libelleAbr'] +'</div>'+
+                                '</div>'
+                            },
+                                myObject[0]['level'][0]['levelsTypes'][i]['blockType'][j]['libelleAbr'], 'VP'],
+
+
+                        ]);
+                    }
+                }
+
+            }
+            var loading = document.getElementById('loadingmaps');
+            loading.style.display = 'none';
+
+
+            // Create the chart.
+            var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+            // Draw the chart, setting the allowHtml option to true for the tooltips.
+            chart.draw(data, {allowHtml:true});
+        }
+    </script>
+    <style>
+        #chart_div{
+            overflow: auto;
+
+        }
+    </style>
+    <div id="loadingmaps" style="text-align: center; width: 100%; margin-top: 15%">
+        <img src="{{ asset('img/loadingmaps.svg') }}" style="background: 0 0">
+    </div>
+
+    <div id="chart_div"></div>
+
+    {#{{ dump(sites) }}#}
+{% endblock %}

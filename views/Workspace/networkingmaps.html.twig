@@ -1,0 +1,528 @@
+{% extends "@QSCOR/Workspace/index.html.twig" %}
+{% block menuapplication %}
+    <ul class="vertical menu menucanvas menuapplicationindex" data-accordion-menu>
+        <li>
+            <a href="#" style="color: #FBFCF7">{{ projectname }}</a>
+            <ul class="menu vertical is-active" >
+                <li{% if app.session.get('routename') == 'networking' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('networking',{'projectname' : projectname}) }}" style="font-size: 15px; color: #FBFCF7"><i class="step fi-map" style="font-size: 24px"></i>Networking</a>
+                    {% if app.session.get('routename') == 'networking' %}
+                        <ul class="menu vertical is-active" >
+                            {#<li><a href="#" style="font-size: 15px">Company</a></li>#}
+                            {#<li><a href="#" style="font-size: 15px">Type Facility</a></li>#}
+                            {#<li><a href="#" style="font-size: 15px">Site</a>#}
+                            {#<ul class="menu vertical nested">#}
+                            {#<li><a href="#" style="font-size: 15px">Setting Sites</a></li>#}
+                            {#<li><a href="#" style="font-size: 15px">Contact Person</a></li>#}
+                            {#</ul>#}
+                            {#</li>#}
+
+                            {#<li><a href="{{ path('networking',{'projectname' : projectname} ) }}" style="font-size: 15px; color: #FBFCF7">Networking</a>#}
+                            {#</li>#}
+                            <li><a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                            <li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                            <li><a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                            <li><a href="{{ path('flow_site_index',{'projectname' : projectname}) }}" style="font-size: 12px; color: #FBFCF7">Flow Sites</a></li>
+                            <li>
+                                <div class="btnnetworking">
+                                    <a href="{{ path('networkingmaps', {'projectname': app.request.attributes.get('projectname')}) }}" >
+                                        Show Network
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    {% endif %}
+
+                </li>
+                <li{% if app.session.get('routename') == 'modelling' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('modelling',{'projectname' : projectname}) }}" style="font-size: 15px; color: #FBFCF7"><i class="step fi-shuffle" style="font-size: 24px"></i>Modelling</a>
+                    {% if app.session.get('routename') == 'modelling' %}
+                        <ul class="menu vertical is-active" >
+                            {#<li><a href="#" style="font-size: 15px">Company</a></li>#}
+                            {#<li><a href="#" style="font-size: 15px">Type Facility</a></li>#}
+                            {#<li><a href="#" style="font-size: 15px">Site</a>#}
+                            {#<ul class="menu vertical nested">#}
+                            {#<li><a href="#" style="font-size: 15px">Setting Sites</a></li>#}
+                            {#<li><a href="#" style="font-size: 15px">Contact Person</a></li>#}
+                            {#</ul>#}
+                            {#</li>#}
+
+                            {#<li><a href="{{ path('networking',{'projectname' : projectname} ) }}" style="font-size: 15px; color: #FBFCF7">Networking</a>#}
+                            {#</li>#}
+                            <li><a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                            <li class="
+                            {% if app.session.get('routename') == 'modelling' or
+                            app.request.attributes.get('_route') == 'type_facility_new' or
+                            app.request.attributes.get('_route') == 'type_facility_index' or
+                            app.request.attributes.get('_route') == 'type_facility_edit'
+                            %}appactive{% endif %}"><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                            <li><a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                        </ul>
+                    {% endif %}
+
+                </li>
+
+
+                <li {% if app.request.attributes.get('_route') == 'performance' %}
+                    class="active"
+                {% endif %}
+                ><a href="{{ path('performance',{'projectname' : projectname}) }}" style="font-size: 15px;color: #FBFCF7"><i class="step fi-graph-bar" style="font-size: 24px"></i>Performance</a>
+                <li {% if   app.request.attributes.get('_route') == 'project_edit' %}
+                    class="active"
+                {% endif %}
+                ><a href="{{ path('project_edit',{'projectname' : projectname,'id': app.session.get('projectid')| urlencrypt}) }}" style="font-size: 15px;color: #FBFCF7"><i class="step fi-widget" style="font-size: 24px"></i>Settings Projects</a>
+
+            </ul>
+        </li>
+
+
+    </ul>
+{% endblock %}
+{% block workspace %}
+    {#{{ dump(flow_sites) }}#}
+    {#{% if flowsites|length == null %}#}
+
+        {#<div class="warning callout" style="margin-right: 1rem ;background-color:#fd9545;color: #FBFCF7; border: 0" data-closable>#}
+            {#<h5 style="font-weight: bold">Warning Networking</h5>#}
+            {#<p>#}
+                {#Your Project have not containe Any  Flow Sites#}
+            {#</p>#}
+
+        {#</div>#}
+
+    {#{% else %}#}
+
+        <style>
+            #floating-panel {
+                position: absolute;
+                top: 20px;
+                left: 50%;
+                z-index: 6;
+                background:0 0;
+                padding: 5px;
+                text-align: center;
+                font-family: 'Roboto','sans-serif';
+                line-height: 30px;
+                padding-left: 10px;
+            }
+        </style>
+        <div id="loadingmaps" style="text-align: center; width: 100%; margin-top: 15%">
+            <img src="{{ asset('img/loadingmaps.svg') }}" style="background: 0 0">
+        </div>
+
+        <div class="row">
+            <div id="floating-panel">
+                <input onclick="removeLine();" id="removeline" type=button value="Remove line" class="secondary button small" style="display: none">
+                <input onclick="addLine();" id="addline" type=button value="Restore line" class="secondary button small" style="display: none">
+            </div>
+            <div id="map"></div>
+        </div>
+
+        <div class="row">
+            <div class="large-10 medium-5 large-offset-2 medium-offset-4 columns" style="text-align: center; margin-top: 1rem">
+                <div class="large-2 medium-2 columns" style="text-align: center">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 498.22 498.22" style="enable-background:new 0 0 498.22 498.22;" xml:space="preserve" width="30px" height="30px">
+                    <g>
+                        <path d="M269.061,484.131c-3.185,8.461-11.255,14.049-20.273,14.089     c-9.028,0.029-17.147-5.501-20.39-13.913c-44.034-114.321-132.63-261.205-132.63-330.964C95.767,68.801,164.539,0,249.12,0     c84.541,0,153.333,68.801,153.333,153.343C402.462,223.307,312.557,368.579,269.061,484.131z M249.12,29.164     c-66.32,0-120.261,53.941-120.261,120.232c0,66.33,53.941,120.3,120.261,120.3c66.3,0,120.241-53.951,120.241-120.3     C369.351,83.105,315.42,29.164,249.12,29.164z" fill="#082645"/>
+                    </g>
+                    </svg>
+                    <div style="color: #FBFCF7; font-size: 10px;">
+                        Customer Of Customer
+                    </div>
+                </div>
+
+
+                <div class="large-2 medium-2 columns" style="text-align: center">
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 498.22 498.22" style="enable-background:new 0 0 498.22 498.22;" xml:space="preserve" width="30px" height="30px">
+                       <g>
+                           <path d="M269.061,484.131c-3.185,8.461-11.255,14.049-20.273,14.089     c-9.028,0.029-17.147-5.501-20.39-13.913c-44.034-114.321-132.63-261.205-132.63-330.964C95.767,68.801,164.539,0,249.12,0     c84.541,0,153.333,68.801,153.333,153.343C402.462,223.307,312.557,368.579,269.061,484.131z M249.12,29.164     c-66.32,0-120.261,53.941-120.261,120.232c0,66.33,53.941,120.3,120.261,120.3c66.3,0,120.241-53.951,120.241-120.3     C369.351,83.105,315.42,29.164,249.12,29.164z" fill="#1b81e6"/>
+                       </g>
+                    </svg>
+                    <div style="color: #FBFCF7; font-size: 10px; text-align: center">
+                        Customer
+                    </div>
+                </div>
+
+                <div class="large-2 medium-2 columns" style="text-align: center">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 498.22 498.22" style="enable-background:new 0 0 498.22 498.22;" xml:space="preserve" width="30px" height="30px">
+                        <g>
+                            <path d="M269.061,484.131c-3.185,8.461-11.255,14.049-20.273,14.089     c-9.028,0.029-17.147-5.501-20.39-13.913c-44.034-114.321-132.63-261.205-132.63-330.964C95.767,68.801,164.539,0,249.12,0     c84.541,0,153.333,68.801,153.333,153.343C402.462,223.307,312.557,368.579,269.061,484.131z M249.12,29.164     c-66.32,0-120.261,53.941-120.261,120.232c0,66.33,53.941,120.3,120.261,120.3c66.3,0,120.241-53.951,120.241-120.3     C369.351,83.105,315.42,29.164,249.12,29.164z" fill="#d94c3f"/>
+                        </g>
+                    </svg>
+                    <div style="color: #FBFCF7; font-size: 10px; text-align: center">
+                        My Company
+                    </div>
+                </div>
+
+                <div class="large-2 medium-2 columns" style="text-align: center">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 498.22 498.22"  xml:space="preserve" width="30px" height="30px">
+                        <g>
+                            <path d="M269.061,484.131c-3.185,8.461-11.255,14.049-20.273,14.089     c-9.028,0.029-17.147-5.501-20.39-13.913c-44.034-114.321-132.63-261.205-132.63-330.964C95.767,68.801,164.539,0,249.12,0     c84.541,0,153.333,68.801,153.333,153.343C402.462,223.307,312.557,368.579,269.061,484.131z M249.12,29.164     c-66.32,0-120.261,53.941-120.261,120.232c0,66.33,53.941,120.3,120.261,120.3c66.3,0,120.241-53.951,120.241-120.3     C369.351,83.105,315.42,29.164,249.12,29.164z" fill="#3d7b0c"/>
+                        </g>
+                    </svg>
+                    <div style="color: #FBFCF7; font-size: 10px; text-align: center">
+                        Supplier Of Supplier
+                    </div>
+                </div>
+
+                <div class="large-2 medium-2 columns"  style="float: left; text-align: center">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 498.22 498.22"  xml:space="preserve" width="30px" height="30px">
+                       <g>
+                           <path d="M269.061,484.131c-3.185,8.461-11.255,14.049-20.273,14.089     c-9.028,0.029-17.147-5.501-20.39-13.913c-44.034-114.321-132.63-261.205-132.63-330.964C95.767,68.801,164.539,0,249.12,0     c84.541,0,153.333,68.801,153.333,153.343C402.462,223.307,312.557,368.579,269.061,484.131z M249.12,29.164     c-66.32,0-120.261,53.941-120.261,120.232c0,66.33,53.941,120.3,120.261,120.3c66.3,0,120.241-53.951,120.241-120.3     C369.351,83.105,315.42,29.164,249.12,29.164z" fill="#72e817"/>
+                       </g>
+                    </svg>
+                    <div style="color: #FBFCF7; font-size: 10px;" >
+                        Supplier
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+    {#{{ dump(flow_sites) }}#}
+    <script type="text/javascript">
+
+
+        $( document ).ready(function() {
+////            alert("jhh");
+            var s = document.createElement("script");
+            s.type = "text/javascript";
+            s.src  = "https://maps.googleapis.com/maps/api/js?key=AIzaSyB65eDzPhhEpAxF-Irkvkchizc6balxEQs&callback=initMap";
+            $("head").append(s);
+
+            {#var obj = {{ flow_sites|json_encode|raw }};#}
+            {#var myObject = eval('(' + obj + ')');#}
+            {#alert(myObject.length);#}
+//            var name = myObject[0]['origin']['company']['category'];
+
+
+        });
+
+        var flightPath = [];
+        var map;
+        function initMap() {
+
+            var obj = {{ flow_sites|json_encode|raw }};
+            var objsites = {{ sites|json_encode|raw }};
+            var myObject = eval('(' + obj + ')');
+            var mysites = eval('(' + objsites + ')');
+
+
+            var colorcategory = {
+                'SupplierOfSupplier' : '3D7B0C',
+                'Supplier' : '72e817',
+                'MyCompany' : 'D94C3F',
+                'Customer' : '1B81E6',
+                'CustomerOfCustomer'  : '082645'
+
+            }
+
+            var lineSymbol = {
+                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+//                path: 'M 0,-1 0,1',
+//                path:'M100,200 C100,100 400,100 400,200',
+//                strokeOpacity: 1,
+//                scale: 4,
+//                rotation : 54
+//                scale : 10,
+                strokeColor: '#181727',
+                fillColor: '#50040B',
+//                fillOpacity: 1
+
+
+            };
+
+            var dashedSymbol = {
+                path: 'M 0,-1 0,1',
+                strokeOpacity: 1,
+                scale: 4
+
+            };
+
+
+            /*  Marker Color */
+            var pinColor1 = "3D7B0C";
+            var pinColor2 = "D94C3F";
+            var pinColor3 = "1B81E6";
+
+            var loading = document.getElementById('loadingmaps');
+            var removeline = document.getElementById('removeline');
+            var addline = document.getElementById('addline');
+            loading.style.display = 'none';
+            removeline.style.display = 'inline';
+            addline.style.display = 'inline';
+//            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            map = new google.maps.Map(document.getElementById("map"),{
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+
+            });
+            var bounds = new google.maps.LatLngBounds();
+            for(i = 0 ; i < mysites.length ; i++) {
+                var url = "{{ path('site_index',{'projectname':app.request.attributes.get('projectname')})}}";
+
+//               var linkeditsites = url.replace('id_site', myObject[i]['origin']['id']);
+                var linkeditsites = url;
+                url = "{{ path('contact_personne_index',{'sitename':'id_site','projectname':app.request.attributes.get('projectname')})}}";
+                var linkshowcontactperson = url.replace('id_site', mysites[i]['name']);
+                var contentStringorigin = '<div id="content">'+
+                        '<div id="siteNotice">'+
+                        '</div>'+
+                        '<h3 id="firstHeading" class="firstHeading " style="text-align : center">'+ mysites[i]['name']+'</h3>'+
+                        '<div id="bodyContent">'+
+                        '<a href="'+linkeditsites+'"> All Sites</a>'+'<br>'+
+//                        '<a href="'+linkeditsites+'"> Edit Site</a>'+'<br>'+
+                        '<span>Address : ' +  mysites[i]['adresse'] +'</span>'+
+                        '<br>'+
+                        '<span>Company Name: ' +  mysites[i]['company']['name'] +'</span>'
+                        +'<br>'+
+                        '<span> Contact Person :'+
+                        '<a href="'+linkshowcontactperson+'">  Show Contacts</a>'
+                        +' <span>'+
+                        '</div>'+
+                        '</div>';
+
+                var namesite = mysites[i]['coordonne'].slice(1, -1);
+                var positionsite = namesite.split(/[,]/);
+                addInfoWindow(contentStringorigin,new google.maps.LatLng(positionsite[0], positionsite[1]),
+                        mysites[i]['company']['category'] , mysites[i]['name']);
+
+            }
+
+//            alert(maxdestinationlat+" "+mindestinationlag);
+//            alert(maxoriginlat+" "+minoriginlag);
+
+//            var myLatlng = new google.maps.LatLng(19.8741484, 12.9685462,3);
+//            var myLatlng = new google.maps.LatLng(
+//                    ((maxoriginlat + minoriginlag) / 2.0),
+//                    ((maxdestinationlat + mindestinationlag) / 2.0)
+//            );
+//            var mapOptions = {
+//                zoom: 2,
+//                center: myLatlng,
+//                mapTypeId: google.maps.MapTypeId.ROADMAP
+//
+//            }
+
+
+//            map.fitBounds(new google.maps.LatLngBounds(
+//                    //bottom left
+//                    new google.maps.LatLng(minoriginlag, mindestinationlag),
+//                    //top right
+//                    new google.maps.LatLng(maxoriginlat, maxdestinationlat)
+//            ));
+
+
+
+
+//            var nameorigin = myObject[0]['origin']['coordonne'].slice(1, -1);
+//            var positionorigin = nameorigin.split(/[,]/);
+//
+//            var namedestination = myObject[myObject.length - 1]['destination']['coordonne'].slice(1, -1);
+//            var positiondestination = namedestination.split(/[,]/);
+//            alert(positiondestination[0]);
+//
+//            map.fitBounds(new google.maps.LatLngBounds(
+//                    //bottom left
+//                    new google.maps.LatLng(positionorigin[0], positionorigin[1]),
+//                    new google.maps.LatLng(positiondestination[0],positiondestination[1])
+//                    //top right
+////                    new google.maps.LatLng(lat_max, lng_max)
+//            ));
+
+
+
+
+
+
+
+
+
+            function  MakeMarker(pinColor){
+                var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                        new google.maps.Size(21, 34),
+                        new google.maps.Point(0,0),
+                        new google.maps.Point(10, 34));
+
+                return pinImage;
+
+            }
+
+            /* Color For Makers*/
+            var makerColor = [pinColor1, pinColor2, pinColor3];
+
+
+            for(i = 0 ; i < myObject.length ; i++) {
+
+                var nameorigin = myObject[i]['origin']['coordonne'].slice(1, -1);
+                var positionorigin = nameorigin.split(/[,]/);
+
+                var namedestination = myObject[i]['destination']['coordonne'].slice(1, -1);
+                var positiondestination = namedestination.split(/[,]/);
+
+               if(myObject[i]['flowfluxinformation'].length){
+                   for(j = 0; j <  myObject[i]['flowfluxinformation'].length ; j++){
+//                       alert(myObject[i]['fluxinformation'][j]['colorFlux']);
+
+                       FlowMarkers(new google.maps.LatLng(positionorigin[0], positionorigin[1]),
+                               new google.maps.LatLng(positiondestination[0], positiondestination[1]), myObject[i]['flowfluxinformation'][j]['colorFlux'], lineSymbol,j);
+                   }
+               }
+
+
+                if(myObject[i]['flowfluxphysique'].length){
+                    for(j = 0; j <  myObject[i]['flowfluxphysique'].length ; j++){
+
+
+                        FlowMarkersdashed(new google.maps.LatLng(positionorigin[0], positionorigin[1]),
+                                new google.maps.LatLng(positiondestination[0], positiondestination[1]), myObject[i]['flowfluxphysique'][j]['colorFlux'], dashedSymbol, j);
+                    }
+                }
+
+
+
+//            addInfoWindow(contentString,new google.maps.LatLng(50.58971789181646, 5.466010562246765) );
+
+            }
+
+
+
+
+            function addInfoWindow(message, latlng, category, title) {
+               var marker = new google.maps.Marker({
+                    position: latlng,
+//                    title: ''+myObject[i]['country_name'],
+                    title: ''+title,
+//                    icon: MakeMarker(makerColor[i - 3])
+                    icon: MakeMarker(colorcategory[category])
+                });
+
+                var infoWindow = new google.maps.InfoWindow({
+                    content: message
+                });
+                marker.addListener('click', function(){
+                    infoWindow.open(map, marker);
+                });
+                marker.setMap(map);
+                bounds.extend(marker.position);
+            }
+
+            map.fitBounds(bounds);
+//            var listener = google.maps.event.addListener(map, "idle", function () {
+//                map.setZoom(10);
+//                google.maps.event.removeListener(listener);
+//            });
+
+
+            function FlowMarkers(latlngOrgin, latlngDest, ColorFlow, Symbol, indexvar){
+
+                var dest, orig;
+//                dest = latlngOrgin - indexvar;
+//                orig = latlngDest + indexvar ;
+//                var flightPlanCoordinates = [
+//                    {lat: latlngOrgin, lng: latlngDest},
+//                    {lat:  dest, lng: orig}
+////                    {lat: -18.142, lng: 178.431},
+////                    {lat: -27.467, lng: 153.027}
+//                ];
+//                alert(latlngOrgin.lat());
+                var flightPlanCoordinates = [
+                    latlngOrgin,
+                    {lat: latlngOrgin.lat() - (indexvar*1/1000), lng: latlngOrgin.lng() - (indexvar*1/1000)},
+//                    {lat: (latlngOrgin.lat() + (indexvar)), lng:  (latlngDest.lat() - (indexvar*3)) *(-1)},
+//                    {lat: -18.142, lng: 178.431},
+//                    {lat: latlngOrgin.lat() + (indexvar*(-4)), lng:  latlngDest.lat() - (indexvar*(-4))},
+                    latlngDest,
+                ];
+
+
+                var line = new google.maps.Polyline({
+//                    path: [ latlngOrgin,latlngDest]
+                    path : flightPlanCoordinates,
+//                strokeOpacity: 0,
+                    icons: [{
+                        icon: Symbol,
+                        offset: '100%',
+
+//                    repeat: '20px'
+                    }],
+                    strokeColor: "#"+ColorFlow,
+                    geodesic: false,
+//                    zIndex: 100,
+//                    draggable: true,
+                    map: map
+                });
+
+                flightPath.push(line);
+
+
+
+
+            }
+
+
+            function FlowMarkersdashed(latlngOrgin, latlngDest, ColorFlow, Symbol,  indexvar){
+
+                var flightPlanCoordinates = [
+                    latlngOrgin,
+                    {lat: latlngOrgin.lat() - (indexvar*1/1000), lng: latlngOrgin.lng() - (indexvar*1/1000)},
+//                    {lat: -18.142, lng: 178.431},
+                    latlngDest,
+                ];
+                var line = new google.maps.Polyline({
+                    path: flightPlanCoordinates,
+                    strokeOpacity: 0,
+                    icons: [{
+                        icon: Symbol,
+//                        offset: '100%',
+                        offset: '0',
+                        repeat: '20px'
+
+//                    repeat: '20px'
+                    }],
+                    strokeColor: "#"+ColorFlow,
+                    geodesic: true,
+
+//                    editable: true,
+
+                    map: map
+                });
+                flightPath.push(line);
+            }
+
+
+
+        }
+
+        function addLine() {
+            for (var i = 0; i < flightPath.length; i++) {
+                flightPath[i].setMap(map);
+            }
+
+        }
+
+        function removeLine() {
+            for (var i = 0; i < flightPath.length; i++) {
+                flightPath[i].setMap(null);
+            }
+        }
+
+
+
+
+    </script>
+{% endblock %}

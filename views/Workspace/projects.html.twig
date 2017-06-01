@@ -1,0 +1,104 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+    <div class="row">
+
+        <button type="button"  data-toggle="offCanvas">
+            <span class="icons"> <i class="step fi-align-left size-72" ></i></span>
+        </button>
+    </div>
+    <div class="off-canvas-wrapper">
+        <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+            <div class="off-canvas position-left reveal-for-large heightcanvas" id="offCanvas" data-off-canvas>
+
+                <!-- Close button -->
+                {#<button class="close-button" aria-label="Close menu" type="button" data-close>#}
+                {#<span aria-hidden="true">&times;</span>#}
+                {#</button>#}
+
+                <!-- Menu -->
+
+                <div class="headcanvas">
+                   <a href="{{ path('homepage') }}"> <img src="{{ asset('img/logocanvas.svg') }}" height="50px" width="50px" id="logocanvas" /></a>
+                    <div class="titlelogoconvans">
+                        <a href="{{ path('homepage') }}">QSCOR</a>
+                    </div>
+                    <div class="accountcanvas">
+                        <a href="{{ path('account') }}">{{  app.user.email }}</a>
+                    </div>
+                </div>
+                {% block menuapplication %}
+                    <ul class="vertical menu menucanvas menuapplicationindex">
+                        <li {% if app.request.attributes.get('_route') == 'projects' %} class="active" {% endif %}><a href="{{ path('homepage') }}"> <i class="step fi-target" style="font-size: 36px"></i> Projects</a></li>
+                        <li {% if app.request.attributes.get('_route') == 'account' or
+                         app.request.attributes.get('_route') == 'fos_user_profile_edit'
+
+                        %} class="active" {% endif %}><a href="{{ path('account') }}" style="color: #FBFCF7"> <i class="step fi-torsos-all" style="font-size: 36px"> </i>Account Settings</a></li>
+                    </ul>
+                {% endblock %}
+                <div class="footercanvas">
+                    <a  href="{{ path('fos_user_security_logout') }}">
+                    <i class="step fi-power"></i> Logout
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="off-canvas-content canavscontent" data-off-canvas-content>
+                <!-- Page content -->
+                <br>
+
+
+
+
+                <div class="workspace">
+                {% block workspace %}
+
+                    {#{% if app.session.flashbag.get('notice') %}#}
+                        {#<div class="warning callout" style="margin-right: 1rem ;background-color:#fd9545;color: #FBFCF7; border: 0" data-closable>#}
+                            {#<h5 style="font-weight: bold">Warning Creation Project</h5>#}
+                            {#<p>#}
+                                {#The Name Of Project Is Already Defined#}
+                            {#</p>#}
+                            {#<button class="close-button" aria-label="Dismiss alert" type="button" data-close>#}
+                                {#<span aria-hidden="true" style="color: #FBFCF7">&times;</span>#}
+                            {#</button>#}
+                        {#</div>#}
+                    {#{% endif %}#}
+
+
+
+                    <div class="btnproject">
+                        <a  data-open="addModalproject" class="button"> Create a new project</a>
+                    </div>
+                    <div class="reveal  modalaction" id="addModalproject" data-animation-in="scale-in-down" data-reveal>
+
+                        {#{{ render(controller(#}
+                        {#'QSCORBundle:Project:new'#}
+                        {#)) }}#}
+                        {% include ":project:new.html.twig" with {'form' : form} %}
+                    </div>
+                    <br><br>{# this br is very important !!!#}
+					<h1> on est dans projects </h1>
+                    {% include ":project:index.html.twig" with {"project" : projects} %}
+
+            {% endblock %}
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            var test = {{ app.session.get('error') }};
+
+            if(test == 1){
+                $('#addModalproject').foundation('open');
+            }
+        })
+
+    </script>
+
+{% endblock %}

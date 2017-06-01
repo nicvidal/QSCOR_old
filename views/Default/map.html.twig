@@ -1,0 +1,168 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    countries
+    <a href="{{ path('flowprocess') }}">Process Flow</a>
+    <img src="{{ asset("img/my_logoo.png")}}" alt="Logo Of Site">
+    <div id="map"></div>
+
+    <script type="text/javascript">
+
+        $( document ).ready(function() {
+//            alert("jhh");
+            var s = document.createElement("script");
+            s.type = "text/javascript";
+            s.src  = "https://maps.googleapis.com/maps/api/js?key=AIzaSyB65eDzPhhEpAxF-Irkvkchizc6balxEQs&callback=initMap";
+            $("head").append(s);
+
+        });
+        function initMap() {
+
+            var obj = {{ countries|json_encode|raw }};
+            var myObject = eval('(' + obj + ')');
+
+            var myLatlng = new google.maps.LatLng(19.8741484, 12.9685462,3);
+            var mapOptions = {
+                zoom: 2,
+                center: myLatlng
+            }
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+
+            var lineSymbol = {
+                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+//                path: 'M 0,-1 0,1',
+//                path:'M100,200 C100,100 400,100 400,200',
+//                strokeOpacity: 1,
+//                scale: 4,
+//                rotation : 54
+//                scale : 10,
+                strokeColor: '#181727',
+                fillColor: '#50040B',
+//                fillOpacity: 1
+
+
+            };
+
+            var dashedSymbol = {
+                path: 'M 0,-1 0,1',
+                strokeOpacity: 1,
+                scale: 4
+
+            };
+
+
+            /*  Marker Color */
+            var pinColor1 = "3D7B0C";
+            var pinColor2 = "D94C3F";
+            var pinColor3 = "1B81E6";
+
+
+
+            function  MakeMarker(pinColor){
+                var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                        new google.maps.Size(21, 34),
+                        new google.maps.Point(0,0),
+                        new google.maps.Point(10, 34));
+
+                return pinImage;
+
+            }
+            /* Color For Makers*/
+            var makerColor = [pinColor1, pinColor2, pinColor3];
+
+            for(i = 3 ; i < 6 ; i++) {
+                var contentString = '<div id="content">'+
+                        '<div id="siteNotice">'+
+                        '</div>'+
+                        '<h1 id="firstHeading" class="firstHeading">Test</h1>'+
+                        '<div id="bodyContent">'+
+                        myObject[i]['country_name']
+                        '</div>'+
+                        '</div>';
+
+                addInfoWindow(contentString,new google.maps.LatLng(myObject[i]['capital_latitude'] ,myObject[i]['capital_longitude'] ) );
+
+            }
+
+
+            function addInfoWindow(message, latlng) {
+
+                var marker = new google.maps.Marker({
+                    position: latlng,
+                    title: ''+myObject[i]['country_name'],
+                    icon: MakeMarker(makerColor[i - 3])
+                });
+
+                var infoWindow = new google.maps.InfoWindow({
+                    content: message
+                });
+                marker.addListener('click', function(){
+                    infoWindow.open(map, marker);
+                });
+                marker.setMap(map);
+            }
+
+
+
+
+            FlowMarkers(new google.maps.LatLng(myObject[3]['capital_latitude'] ,myObject[3]['capital_longitude']),
+                    new google.maps.LatLng(myObject[4]['capital_latitude'] ,myObject[4]['capital_longitude']), makerColor[0], lineSymbol);
+
+            FlowMarkers(new google.maps.LatLng(myObject[4]['capital_latitude'] ,myObject[4]['capital_longitude']),
+                    new google.maps.LatLng(myObject[5]['capital_latitude'] ,myObject[5]['capital_longitude']), makerColor[1], lineSymbol);
+
+            FlowMarkers(new google.maps.LatLng(myObject[5]['capital_latitude'] ,myObject[5]['capital_longitude']),
+                    new google.maps.LatLng(myObject[3]['capital_latitude'] ,myObject[3]['capital_longitude']), makerColor[2], lineSymbol);
+
+            FlowMarkersdashed(new google.maps.LatLng(myObject[5]['capital_latitude'] ,myObject[5]['capital_longitude']),
+                    new google.maps.LatLng(myObject[3]['capital_latitude'] ,myObject[3]['capital_longitude']), makerColor[2], dashedSymbol);
+            FlowMarkersdashed(new google.maps.LatLng(myObject[5]['capital_latitude'] ,myObject[5]['capital_longitude']),
+                    new google.maps.LatLng(myObject[4]['capital_latitude'] ,myObject[4]['capital_longitude']), makerColor[0], dashedSymbol);
+
+
+            function FlowMarkers(latlngOrgin, latlngDest, ColorFlow, Symbol){
+                var line = new google.maps.Polyline({
+                    path: [ latlngOrgin,latlngDest],
+//                strokeOpacity: 0,
+                    icons: [{
+                        icon: Symbol,
+                        offset: '100%',
+
+//                    repeat: '20px'
+                    }],
+                    strokeColor: "#"+ColorFlow,
+                    geodesic: true,
+                    map: map
+                });
+            }
+
+            function FlowMarkersdashed(latlngOrgin, latlngDest, ColorFlow, Symbol){
+                var line = new google.maps.Polyline({
+                    path: [ latlngOrgin,latlngDest],
+                    strokeOpacity: 0,
+                    icons: [{
+                        icon: Symbol,
+//                        offset: '100%',
+                        offset: '0',
+                        repeat: '20px'
+
+//                    repeat: '20px'
+                    }],
+                    strokeColor: "#"+ColorFlow,
+                    geodesic: false,
+                    map: map
+                });
+            }
+
+
+
+        }
+
+
+
+
+    </script>
+
+
+{% endblock %}

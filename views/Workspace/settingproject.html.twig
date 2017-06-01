@@ -1,0 +1,5 @@
+{% extends "@QSCOR/Workspace/index.html.twig" %}
+{% block workspace %}
+    {{ render(controller("QSCORBundle:Project:edit",{'id': project.id})) }}
+
+{% endblock %}

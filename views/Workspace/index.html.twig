@@ -1,0 +1,108 @@
+{% extends "@QSCOR/Workspace/projects.html.twig" %}
+
+{% block menuapplication %}
+    <ul class="vertical menu menucanvas menuapplicationindex" data-accordion-menu>
+        <li>
+            <a href="#" style="color: #FBFCF7">{{ projectname }}</a>
+            <ul class="menu vertical is-active" >
+                {#<li><a href="#" style="font-size: 15px">Company</a></li>#}
+                {#<li><a href="#" style="font-size: 15px">Type Facility</a></li>#}
+                {#<li><a href="#" style="font-size: 15px">Site</a>#}
+                    {#<ul class="menu vertical nested">#}
+                        {#<li><a href="#" style="font-size: 15px">Setting Sites</a></li>#}
+                        {#<li><a href="#" style="font-size: 15px">Contact Person</a></li>#}
+                    {#</ul>#}
+                {#</li>#}
+
+                {% block networkinglist %}
+                    <li><a href="{{ path('networking',{'projectname' : projectname} ) }}" style="font-size: 15px; color: #FBFCF7">
+                            <i class="step fi-map" style="font-size: 24px"></i>Networking</a>
+
+
+                    </li>
+                {% endblock %}
+
+                {% block modellinglist %}
+                    <li>
+                        <a href="{{ path('modelling',{'projectname' : projectname}) }}" style="font-size: 15px; color: #FBFCF7"><i class="step fi-shuffle" style="font-size: 24px"></i>Modelling</a></li>
+                {% endblock %}
+                <li {% if app.request.attributes.get('_route') == 'performance' %}
+                    class="active"
+                {% endif %}
+                ><a href="{{ path('performance',{'projectname' : projectname}) }}" style="font-size: 15px;color: #FBFCF7"><i class="step fi-graph-bar" style="font-size: 24px"></i>Performance</a>
+                <li {% if   app.request.attributes.get('_route') == 'project_edit' %}
+                    class="active"
+                        {% endif %}
+                ><a href="{{ path('project_edit',{'projectname' : projectname,'id': app.session.get('projectid')| urlencrypt}) }}" style="font-size: 15px;color: #FBFCF7"><i class="step fi-widget" style="font-size: 24px"></i>Settings Projects</a>
+
+            </ul>
+        </li>
+
+
+    </ul>
+
+
+{% endblock%}
+
+
+ {% block workspace %}
+
+                <div class="row" id="casanimation">
+
+                    <div class="large-4 columns">
+                    <a href="{{ path('networking',{'projectname' : projectname} ) }}">
+                    <div class="thumbnail ">
+                    <img src="{{ asset('img/networkingLogistic.jpg') }}" id="networking-picture"/>
+                    <hr>
+                        <div class="CasWorksapceline">
+                            <h4 class="text-center">Networking</h4>
+                            <span class="lineCas"></span>
+                        </div>
+
+                    <p class="text-center">The most basic elements in the Foundation for Apps grid are the Group and Block.</p>
+                    </div>
+                    </a>
+                    </div>
+
+                    <div class="large-4 columns">
+                    <a href="{{ path('modelling',{'projectname' : projectname}) }}">
+                    <div class="thumbnail">
+                    <img src="{{ asset('img/modelling.jpg') }}" id="modelling-picture"/>
+                    <hr>
+                        <div class="CasWorksapceline">
+                        <h4 class="text-center">Modelling</h4>
+                            <span class="lineCas"></span>
+                        </div>
+                    <p class="text-center">The most basic elements in the Foundation for Apps grid are the Group and Block.</p>
+                    </div>
+                    </a>
+                    </div>
+                    <div class="large-4 columns">
+                        <a href="{{ path('performance',{'projectname' : projectname}) }}">
+                        <div class="thumbnail">
+                        <img src="{{ asset('img/performance.jpg') }}" id="performance-picture"/>
+                        <hr>
+                            <div class="CasWorksapceline">
+                                <h4 class="text-center">Performance</h4>
+                                <span class="lineCas"></span>
+                            </div>
+                        <p class="text-center">The most basic elements in the Foundation for Apps grid are the Group and Block.</p>
+                        </div>
+                        </a>
+                    </div>
+                    </div>
+
+
+
+                </div>
+				
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+
+                MotionUI.animateIn('#casanimation', 'scale-in-up');
+
+            })
+        </script>
+
+{% endblock %}

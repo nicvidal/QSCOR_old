@@ -1,0 +1,695 @@
+{% extends "@QSCOR/Workspace/index.html.twig" %}
+{% block menuapplication %}
+    <ul class="vertical menu menucanvas menuapplicationindex" data-accordion-menu>
+        <li>
+            <a href="#" style="color: #FBFCF7">{{ projectname }}</a>
+            <ul class="menu vertical is-active" >
+                <li{% if app.session.get('routename') == 'networking' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('networking',{'projectname' : projectname}) }}" style="font-size: 15px; color: #FBFCF7"><i class="step fi-map" style="font-size: 24px"></i>Networking</a>
+                    {% if app.session.get('routename') == 'networking' %}
+                        <ul class="menu vertical is-active" >
+                            {#<li><a href="#" style="font-size: 15px">Company</a></li>#}
+                            {#<li><a href="#" style="font-size: 15px">Type Facility</a></li>#}
+                            {#<li><a href="#" style="font-size: 15px">Site</a>#}
+                            {#<ul class="menu vertical nested">#}
+                            {#<li><a href="#" style="font-size: 15px">Setting Sites</a></li>#}
+                            {#<li><a href="#" style="font-size: 15px">Contact Person</a></li>#}
+                            {#</ul>#}
+                            {#</li>#}
+
+                            {#<li><a href="{{ path('networking',{'projectname' : projectname} ) }}" style="font-size: 15px; color: #FBFCF7">Networking</a>#}
+                            {#</li>#}
+                            <li><a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                            <li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                            <li class="
+                                                {% if app.session.get('routename') == 'modelling' or
+                            app.request.attributes.get('_route') == 'site_new' or
+                            app.request.attributes.get('_route') == 'site_index' or
+                            app.request.attributes.get('_route') == 'site_edit'
+                            %}appactive{% endif %}">
+                                <a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                            <li><a href="{{ path('flow_site_index', {'projectname': app.request.attributes.get('projectname')}) }}" style="font-size: 13px;color: #FBFCF7">Flow Sites</a></li>
+                            <li>
+
+                                <div class="btnnetworking">
+                                    <a href="{{ path('networkingmaps', {'projectname': app.request.attributes.get('projectname')}) }}" >
+                                        Show Network
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    {% endif %}
+
+                </li>
+                <li{% if app.session.get('routename') == 'modelling' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('modelling',{'projectname' : projectname}) }}" style="font-size: 15px; color: #FBFCF7"><i class="step fi-shuffle" style="font-size: 24px"></i>Modelling</a>
+                    {% if app.session.get('routename') == 'modelling' %}
+                        <ul class="menu vertical is-active" >
+                            <li><a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                            <li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                            <li class="
+                                                {% if app.session.get('routename') == 'modelling' or
+                            app.request.attributes.get('_route') == 'site_new' or
+                            app.request.attributes.get('_route') == 'site_index' or
+                            app.request.attributes.get('_route') == 'site_edit'
+                            %}appactive{% endif %}">
+                                <a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                            <li>
+
+                                <div class="btnnetworking">
+                                    <a href="{{ path('modellingprojectschema', {'projectname': app.request.attributes.get('projectname')}) }}" >
+                                        Show Modelling for this Project
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    {% endif %}
+
+                </li>
+
+                <li{% if app.session.get('routename') == 'performance' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('performance',{'projectname' : projectname}) }}" style="font-size: 15px;color: #FBFCF7">
+                        <i class="step fi-graph-bar" style="font-size: 24px"></i>Performance
+                    </a>
+                    {% if app.session.get('routename') == 'performance' %}
+                        <ul class="menu vertical is-active" >
+                            <li class="{% if app.request.attributes.get('_route') == 'performancemode'
+                            %}appactive{% endif %}">
+                                <a href="{{ path('performancemode',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Performance Mode</a>
+                            </li>
+                            <li><a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                            <li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                            <li class="
+                                                {% if app.session.get('routename') == 'performance' or
+                            app.request.attributes.get('_route') == 'site_new' or
+                            app.request.attributes.get('_route') == 'site_index' or
+                            app.request.attributes.get('_route') == 'site_edit'
+                            %}appactive{% endif %}">
+                                <a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                        </ul>
+                    {% endif %}
+
+                </li>
+
+                <li {% if   app.request.attributes.get('_route') == 'project_edit' %}
+                    class="active"
+                {% endif %}
+                ><a href="{{ path('project_edit',{'projectname' : projectname,'id': app.session.get('projectid')| urlencrypt}) }}" style="font-size: 15px;color: #FBFCF7"><i class="step fi-widget" style="font-size: 24px"></i>Settings Projects</a>
+                </li>
+            </ul>
+        </li>
+
+
+    </ul>
+{% endblock %}
+{% block workspace %}
+<nav aria-label="You are here:" role="navigation">
+    <ul class="breadcrumbs">
+        <li><a href="{{ path('site_index',{'projectname': projectname}) }}">sites</a></li>
+        {% for performancetype in performancetypes %}
+            {% if performancetype.libellePerformance == 'cost'  %}
+                <li>{{ performancetype.libellePerformance }}</li>
+            {% else %}
+                    <li><a href="{{ path(performancetype.libellePerformance, {'projectname':projectname, 'idsite':site.id|urlencrypt}) }}">{{ performancetype.libellePerformance }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+    </ul>
+</nav>
+{#{{ dump(performances) }}#}
+
+    {% if performance | length !=0 %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.2/mootools-yui-compressed.js" type="text/javascript"></script>
+<script src="//code.highcharts.com/3.0.10/adapters/mootools-adapter.js" type="text/javascript"></script>
+<script src="//code.highcharts.com/4.1.8/highcharts.js"></script>
+<script src="//code.highcharts.com/4.1.8/modules/exporting.js"></script>
+<script type="text/javascript">
+    {#{{ chart(chart, 'mootools') }}#}
+    {{ chart(chart1) }}
+    {{ chart(chart2) }}
+
+</script>
+
+<div id="linechart" style="margin-right: 1rem; margin-bottom: 5rem"></div>
+<div id="linechart2" style="margin-right: 1rem"></div>
+{#<div style="margin-top: 25rem"></div>#}
+    {#<script type="text/javascript">#}
+        {#{{ chart(chart, 'mootools') }}#}
+        {#{{ chart(chart1) }}#}
+        {#{{ chart(chart2) }}#}
+    {#</script>#}
+
+<div class="row large-6 large-offset-4" style="margin-top: 1rem">
+    <a href="{{ path('performancedelete', {'projectname': projectname, 'idsite': site.id |urlencrypt, 'idperformance' : performance.id}) }}" class="button">
+        Delete this performance
+    </a>
+</div>
+{% else %}
+        {% for performancetype in performancetypes %}
+            {%if performancetype.libellePerformance == 'cost'  %}
+<h4>Cost Performance</h4>
+<div class="formModal" style="margin-top: 0">
+    <form method="post" action="{{ path('costcalcule', {'projectname': projectname, 'idsite': site.id, 'idperformance':performancetype.id}) }}">
+
+
+        <div class="Modalrow">
+
+            <div class="Modallabel">
+                <label> Planning Cost</label>
+            </div>
+            <div class="Modalwidget">
+                <input type="number" name="pc" min=0  id="pc" value="0" required >
+            </div>
+        </div>
+
+        <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-top: 1rem">
+            <li class="accordion-item" data-accordion-item >
+                <a href="#" class="accordion-title"> Calcul Planinig Cost</a>
+                <div class="accordion-content" data-tab-content>
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Planing Labor Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val1"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Planing Automation Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val2"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 11px"> Planing Property, Plant and Equipement Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val3"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 9px"> Planing Governance, Risk, Compilance(GRC) and Overhead Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val4"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a style="margin-top: 1rem" class="button" onclick="planingcost()"> calcule this value</a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="Modalrow">
+
+            <div class="Modallabel">
+                <label> Sourcing Cost</label>
+            </div>
+            <div class="Modalwidget">
+                <input type="number" name="sc" min=0  id="sc" value="0" required >
+            </div>
+        </div>
+
+        <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-top: 1rem">
+            <li class="accordion-item" data-accordion-item >
+                <a href="#" class="accordion-title"> Calcul Sourcing Cost</a>
+                <div class="accordion-content" data-tab-content>
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Sourcing Labor Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val5"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Sourcing Automation Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val6"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 11px"> Sourcing Property, Plant and Equipement Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val7"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 9px"> Sourcing Governance, Risk, Compilance(GRC) and Overhead Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val8"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a style="margin-top: 1rem" class="button" onclick="sourcecost()"> calcule this value</a>
+                </div>
+            </li>
+        </ul>
+
+
+
+        <div class="Modalrow">
+
+            <div class="Modallabel">
+                <label> Material Landed Cost</label>
+            </div>
+            <div class="Modalwidget">
+                <input type="number" name="mlc" min=0  id="mlc" value="0" required >
+            </div>
+        </div>
+
+        <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-top: 1rem">
+            <li class="accordion-item" data-accordion-item >
+                <a href="#" class="accordion-title"> Calcul Materials Cost</a>
+                <div class="accordion-content" data-tab-content>
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Purchased Materials Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val9"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Material Transpotation Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val10"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 11px"> Material Customs, Duties, Taxes and Traffis Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val11"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 11px"> Material Risk and Compilance Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val12"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a style="margin-top: 1rem" class="button" onclick="matirialcost()"> calcule this value</a>
+                </div>
+            </li>
+        </ul>
+
+
+        <div class="Modalrow">
+
+            <div class="Modallabel">
+                <label> Production Cost</label>
+            </div>
+            <div class="Modalwidget">
+                <input type="number" name="prc" min=0  id="prc" value="0" required >
+            </div>
+        </div>
+
+        <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-top: 1rem">
+            <li class="accordion-item" data-accordion-item >
+                <a href="#" class="accordion-title"> Calcul Production Cost</a>
+                <div class="accordion-content" data-tab-content>
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Production(Direct) Labor Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val13"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Production Automation Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val14"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 11px"> Production Property, Plant and Equipement Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val15"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 9px"> Production Governance, Risk, Compilation(GRC), Inventory and Overhead Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val16"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a style="margin-top: 1rem" class="button" onclick="productioncost()"> calcule this value</a>
+                </div>
+            </li>
+        </ul>
+
+
+        <div class="Modalrow">
+
+            <div class="Modallabel">
+                <label> Order Management Cost</label>
+            </div>
+            <div class="Modalwidget">
+                <input type="number" name="omc" min=0  id="omc" value="0" required >
+            </div>
+        </div>
+
+        <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-top: 1rem">
+            <li class="accordion-item" data-accordion-item >
+                <a href="#" class="accordion-title"> Calcul Order Management Cost</a>
+                <div class="accordion-content" data-tab-content>
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Order Management Labor Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val17"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Order Management Automation Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val18"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 11px"> Order Management Property, Plant and Equipement Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val19"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 8px"> Order Management Governance, Risk, Compilation(GRC), Inventory and Overhead Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val20"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a style="margin-top: 1rem" class="button" onclick="ordercost()"> calcule this value</a>
+                </div>
+            </li>
+        </ul>
+
+
+        <div class="Modalrow">
+
+            <div class="Modallabel">
+                <label> Fulfillement Cost</label>
+            </div>
+            <div class="Modalwidget">
+                <input type="number" name="fc" min=0  id="fc" value="0" required >
+            </div>
+        </div>
+
+        <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-top: 1rem">
+            <li class="accordion-item" data-accordion-item >
+                <a href="#" class="accordion-title"> Calcul Fulfillement Cost</a>
+                <div class="accordion-content" data-tab-content>
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Transportation Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val21"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Fulfillement Customs, Duties, Taxes and Tariffs  Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val22"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 11px"> Fulfillement Labor Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val23"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 11px"> Fulfillement Property, plant and Equipement Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val24"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 8px"> Fulfillement Governance, Risk, Compliance(GRC), Inventory and Overhead Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val25"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a style="margin-top: 1rem" class="button" onclick="fulfillementcost()"> calcule this value</a>
+                </div>
+            </li>
+        </ul>
+
+
+        <div class="Modalrow">
+
+            <div class="Modallabel">
+                <label> Returns Cost</label>
+            </div>
+            <div class="Modalwidget">
+                <input type="number" name="rc" min=0  id="rc" value="0" required >
+            </div>
+        </div>
+
+        <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-top: 1rem">
+            <li class="accordion-item" data-accordion-item >
+                <a href="#" class="accordion-title"> Calcul Returns Cost</a>
+                <div class="accordion-content" data-tab-content>
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Discounts and Refunds Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val26"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 12px"> Disposition Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val27"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="Modalrow">
+
+                                <div class="Modallabel">
+                                    <label style="font-size: 9px"> Returns Governance, Risk, Compilance(GRC) and Overhead Cost</label>
+                                </div>
+                                <div class="Modalwidget">
+                                    <input type="number" id="val28"  min="0" placeholder="insert value in euro">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a style="margin-top: 1rem ; " class="button" onclick="returncost()"> calcule this value</a>
+                </div>
+            </li>
+        </ul>
+        <input style="margin-top: 1rem" type="submit" value="create" class="button success"  >
+    </form>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+
+    <script type="text/javascript">
+
+        var total = 0;
+        function planingcost(){
+            calculcost(1, 4, 'pc');
+        }
+        function sourcecost(){
+            calculcost(5, 8, 'sc');
+        }
+        function matirialcost(){
+            calculcost(9, 12, 'mlc');
+        }
+        function productioncost(){
+            calculcost(13, 16, 'prc');
+        }
+
+        function ordercost(){
+            calculcost(17, 20, 'omc');
+        }
+        function fulfillementcost(){
+            calculcost(21, 25, 'fc');
+        }
+
+        function returncost(){
+            calculcost(26, 28, 'rc');
+        }
+        function calculcost(depart, arrive, idcontainer){
+            var val = 0;
+            var sum = 0;
+            var uf = [];
+            for(i = depart ; i <=arrive; i++){
+                val = document.getElementById('val'+i).value;
+               sum += parseFloat(val);
+            }
+            document.getElementById(idcontainer).value = sum;
+
+
+
+        }
+
+    </script>
+    {% endblock %}

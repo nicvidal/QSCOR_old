@@ -1,0 +1,133 @@
+{#{% extends "@QSCOR/Workspace/index.html.twig" %}#}
+
+{#{% block networkinglist %}#}
+        {#<li class="{% if app.request.attributes.get('_route') == 'networking' or#}
+        {#app.request.attributes.get('_route') == 'company_new' or#}
+        {#app.request.attributes.get('_route') == 'company_edit' or#}
+        {#app.request.attributes.get('_route') == 'company_show' or#}
+         {#app.request.attributes.get('_route') == 'type_facility_index' or#}
+         {#app.request.attributes.get('_route') == 'site_index' or#}
+        {#app.request.attributes.get('_route') == 'site_new' or#}
+        {#app.request.attributes.get('_route') == 'site_show' or#}
+        {#app.request.attributes.get('_route') == 'networkingmaps' or#}
+        {#app.request.attributes.get('_route') == 'flow_site' or#}
+        {#app.request.attributes.get('_route') == 'flow_site_index' or#}
+        {#app.request.attributes.get('_route') == 'flow_site_show' or#}
+        {#app.request.attributes.get('_route') == 'flow_site_new' or#}
+        {#app.request.attributes.get('_route') == 'flux_index' or#}
+        {#app.request.attributes.get('_route') == 'flux_show' or#}
+        {#app.request.attributes.get('_route') == 'flux_edit' or#}
+        {#app.request.attributes.get('_route') == 'flux_new' or#}
+
+
+
+
+                {#app.request.attributes.get('_route') == 'contact_personne_index'#}
+        {#%}active{% endif %}" style="background-color: #0c4d78">#}
+                {#<a href="#" style="color: #FBFCF7; font-size: 15px"> <i class="step fi-map" style="font-size: 24px"></i>Networking</a>#}
+                {#<ul class="menu vertical is-active" >#}
+                        {#<li><a href="#" style="font-size: 15px">Company</a></li>#}
+                        {#<li><a href="#" style="font-size: 15px">Type Facility</a></li>#}
+                        {#<li><a href="#" style="font-size: 15px">Site</a>#}
+                        {#<ul class="menu vertical nested">#}
+                        {#<li><a href="#" style="font-size: 15px">Setting Sites</a></li>#}
+                        {#<li><a href="#" style="font-size: 15px">Contact Person</a></li>#}
+                        {#</ul>#}
+                        {#</li>#}
+
+                        {#<li><a href="{{ path('networking',{'projectname' : projectname} ) }}" style="font-size: 15px; color: #FBFCF7">Networking</a>#}
+                        {#</li>#}
+                        {#<li class="#}
+                                {#{% if app.request.attributes.get('_route') == 'networking' or#}
+                        {#app.request.attributes.get('_route') == 'company_new' or#}
+                        {#app.request.attributes.get('_route') == 'company_edit' or#}
+                        {#app.request.attributes.get('_route') == 'company_show'#}
+                                {#%}appactive{% endif %}">#}
+                                {#<a href="{{ path('networking',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>#}
+                        {#<li class="{% if app.request.attributes.get('_route') == 'type_facility_index' %}appactive{% endif %}"><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7">Facilities Types</a></li>#}
+                        {#<li class="  {% if app.request.attributes.get('_route') == 'site_index' or  app.request.attributes.get('_route') == 'site_new' or#}
+                        {#app.request.attributes.get('_route') == 'site_show' or#}
+                        {#app.request.attributes.get('_route') == 'flow_site' or#}
+                        {#app.request.attributes.get('_route') == 'flow_site_index' or#}
+                        {#app.request.attributes.get('_route') == 'flow_site_show' or#}
+                        {#app.request.attributes.get('_route') == 'flow_site_new' or#}
+                        {#app.request.attributes.get('_route') == 'flux_index' or#}
+                        {#app.request.attributes.get('_route') == 'flux_show' or#}
+                        {#app.request.attributes.get('_route') == 'flux_edit' or#}
+                        {#app.request.attributes.get('_route') == 'flux_new' or#}
+                        {#app.request.attributes.get('_route') == 'contact_personne_index' %}active#}
+                                        {#{% endif %}">#}
+                                {#<a href="#" style="font-size: 13px;color: #FBFCF7">Setting Sites</a>#}
+                                {#<ul class="menu vertical#}
+                                        {#{% if app.request.attributes.get('_route') == 'site_index' or  app.request.attributes.get('_route') == 'site_new' or#}
+                                {#app.request.attributes.get('_route') == 'site_show' or#}
+                                {#app.request.attributes.get('_route') == 'flow_site' or#}
+                                {#app.request.attributes.get('_route') == 'flow_site_index' or#}
+                                {#app.request.attributes.get('_route') == 'flow_site_show' or#}
+                                {#app.request.attributes.get('_route') == 'flow_site_new' or#}
+                                {#app.request.attributes.get('_route') == 'flux_index' or#}
+                                {#app.request.attributes.get('_route') == 'flux_show' or#}
+                                {#app.request.attributes.get('_route') == 'flux_edit' or#}
+                                {#app.request.attributes.get('_route') == 'flux_new' or#}
+                                                {#app.request.attributes.get('_route') == 'contact_personne_index' %}is-active#}
+                                        {#{% endif %}" >#}
+                                        {#<li class="{% if app.request.attributes.get('_route') == 'site_index' or#}
+                                                        {#app.request.attributes.get('_route') == 'site_show' or#}
+                                                                {#app.request.attributes.get('_route') == 'contact_personne_index' or#}
+                                                        {#app.request.attributes.get('_route') == 'site_new'#}
+
+                                                {#%}appactive{% endif %}"><a href="{{ path('site_index',{'projectname' : projectname}) }}" style="font-size: 12px; color: #FBFCF7">Sites</a></li>#}
+                                        {#<li class="{% if app.request.attributes.get('_route') == 'site_index' %}appactive{% endif %}"><a href="{{ path('contact_personne_index',{'projectname' : projectname}) }}" style="font-size: 12px; color: #FBFCF7">Contact Person</a></li>#}
+                                        {#<li class="{% if app.request.attributes.get('_route') == 'site_index' %}appactive{% endif %}"><a href="{{ path('contact_personne_index',{'projectname' : projectname}) }}" style="font-size: 12px; color: #FBFCF7">Contact Person</a></li>#}
+                                        {#<li class="{% if#}
+                                        {#app.request.attributes.get('_route') == 'flow_site' or#}
+                                        {#app.request.attributes.get('_route') == 'flow_site_index' or#}
+                                        {#app.request.attributes.get('_route') == 'flow_site_show' or#}
+                                        {#app.request.attributes.get('_route') == 'flow_site_new'or#}
+                                        {#app.request.attributes.get('_route') == 'flux_index' or#}
+                                        {#app.request.attributes.get('_route') == 'fluw_show' or#}
+                                        {#app.request.attributes.get('_route') == 'fluw_edit' or#}
+                                        {#app.request.attributes.get('_route') == 'fluw_new'#}
+                                        {#%}appactive{% endif %}"><a href="{{ path('flow_site',{'projectname' : projectname}) }}" style="font-size: 12px; color: #FBFCF7">Flow Sites</a></li>#}
+                                {#</ul>#}
+                        {#</li>#}
+                        {#<li>#}
+
+                              {#<div class="btnnetworking">#}
+                                      {#<a href="{{ path('networkingmaps', {'projectname': app.request.attributes.get('projectname')}) }}" >#}
+                                              {#Show Network#}
+                                      {#</a>#}
+                              {#</div>#}
+                        {#</li>#}
+
+
+                {#</ul>#}
+        {#</li>#}
+{#{% endblock %}#}
+{#{% block workspace %}#}
+
+        {#<script type="text/javascript">#}
+
+                {#$(document).ready(function() {#}
+                        {#$(".category").select2();#}
+                        {#$(".selectsymfony").select2({#}
+                        {#});#}
+                {#});#}
+
+        {#</script>#}
+
+        {#<br>#}
+        {#<div class="row columns">#}
+                        {#{% block corpsnetworking %}#}
+                        {#{% if app.request.attributes.get('_route') == 'networking' %}#}
+                                {#{% include ":company:index.html.twig" with {'pagination' : pagination} %}#}
+                                {{ render(controller('QSCORBundle:Company:index',
+                                {'projectname': app.request.attributes.get('projectname')})) }}
+                        {#{% endif %}#}
+                {#{% endblock %}#}
+        {#</div>#}
+
+
+
+
+{#{% endblock %}#}

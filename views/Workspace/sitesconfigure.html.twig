@@ -1,0 +1,39 @@
+{% extends "@QSCOR/Workspace/index.html.twig" %}
+
+{% block workspace %}
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+//            $(".category").select2();
+
+        });
+
+    </script>
+    <br>
+    <div class="row columns">
+        {% block corpsnetworking %}
+            <a href="{{ path('networking') }}" style="color: #FBFCF7"> <i class="step fi-arrow-left"></i> Back To Companies</a>
+            <h1 style="text-align: center; color: #FBFCF7 ; font-family: bold"  > Company : {{ company.name }}</h1>
+            <ul class="accordion" data-accordion data-allow-all-closed="true">
+                <li class="accordion-item is-active" data-accordion-item>
+                    <a href="#" class="accordion-title">Facility Type</a>
+                    <div class="accordion-content" data-tab-content>
+                        {% include ":type_facility:index.html.twig" with {'paginationfacility' : paginationfacility, 'form' : form, 'id' : company.id} %}
+
+                    </div>
+                </li>
+
+
+                <!-- ... -->
+            </ul>
+            {% include ":site:index.html.twig" with {'paginationsites' : paginationsites, 'id' : company.id} %}
+
+
+
+        {% endblock %}
+    </div>
+
+
+
+{% endblock %}

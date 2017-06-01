@@ -1,0 +1,244 @@
+{% extends "@QSCOR/Workspace/index.html.twig" %}
+{% block menuapplication %}
+    <ul class="vertical menu menucanvas menuapplicationindex" data-accordion-menu>
+        <li>
+            <a href="#" style="color: #FBFCF7">{{ projectname }}</a>
+            <ul class="menu vertical is-active" >
+                <li{% if app.session.get('routename') == 'networking' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('networking',{'projectname' : projectname}) }}" style="font-size: 15px; color: #FBFCF7"><i class="step fi-map" style="font-size: 24px"></i>Networking</a>
+                    {% if app.session.get('routename') == 'networking' %}
+                        <ul class="menu vertical is-active" >
+                            <li class="
+                                                    {% if app.session.get('routename') == 'networking' or
+                            app.request.attributes.get('_route') == 'company_new' or
+                            app.request.attributes.get('_route') == 'company_index' or
+                            app.request.attributes.get('_route') == 'company_edit'
+                            %}appactive{% endif %}">
+                                <a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                            <li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                            <li><a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                            <li><a href="{{ path('flow_site_index',{'projectname' : projectname}) }}" style="font-size: 12px; color: #FBFCF7">Flow Sites</a></li>
+                            <li>
+
+                                <div class="btnnetworking">
+                                    <a href="{{ path('networkingmaps', {'projectname': app.request.attributes.get('projectname')}) }}" >
+                                        Show Network
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+
+                    {% endif %}
+
+                </li>
+                <li{% if app.session.get('routename') == 'modelling' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('modelling',{'projectname' : projectname}) }}" style="font-size: 15px; color: #FBFCF7"><i class="step fi-shuffle" style="font-size: 24px"></i>Modelling</a>
+                    {% if app.session.get('routename') == 'modelling' %}
+                        <ul class="menu vertical is-active" >
+                            <li class="
+                                                {% if app.session.get('routename') == 'modelling' or
+                            app.request.attributes.get('_route') == 'company_new' or
+                            app.request.attributes.get('_route') == 'company_index' or
+                            app.request.attributes.get('_route') == 'company_edit'
+                            %}appactive{% endif %}">
+                                <a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                            <li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                            <li><a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                            <li>
+
+                                <div class="btnnetworking">
+                                    <a href="{{ path('modellingprojectschema', {'projectname': app.request.attributes.get('projectname')}) }}" >
+                                        Show Modelling for this Project
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    {% endif %}
+
+                </li>
+
+
+                <li{% if app.session.get('routename') == 'performance' %}
+                    class="active"
+                        {% endif %}>
+                    <a href="{{ path('performance',{'projectname' : projectname}) }}" style="font-size: 15px;color: #FBFCF7">
+                        <i class="step fi-graph-bar" style="font-size: 24px"></i>Performance
+                    </a>
+                    {% if app.session.get('routename') == 'performance' %}
+
+                <ul class="menu vertical is-active" >
+                    <li class="{% if app.request.attributes.get('_route') == 'performancemode'
+                    %}appactive{% endif %}">
+                        <a href="{{ path('performancemode',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Performance Mode</a>
+                    </li>
+
+                    <li class="
+                                                {% if
+                    app.request.attributes.get('_route') == 'company_new' or
+                    app.request.attributes.get('_route') == 'company_index' or
+                    app.request.attributes.get('_route') == 'company_edit'
+                    %}appactive{% endif %}">
+                        <a href="{{ path('company_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Companies</a></li>
+                    <li><a href="{{ path('type_facility_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Facilities</a></li>
+                    <li><a href="{{ path('site_index',{'projectname':projectname}) }}" style="font-size: 13px; color: #FBFCF7; ">Sites</a></li>
+                    <li>
+
+                    <div class="btnnetworking">
+                    <a href="{{ path('performanceglobal', {'projectname': app.request.attributes.get('projectname')}) }}" >
+                    Show Perfromance for this Project
+                    </a>
+                    </div>
+                    </li>
+                </ul>
+                {% endif %}
+
+                </li>
+                <li {% if   app.request.attributes.get('_route') == 'project_edit' %}
+                    class="active"
+                {% endif %}
+                >
+                    <a href="{{ path('project_edit',{'projectname' : projectname,'id': app.session.get('projectid')| urlencrypt}) }}" style="font-size: 15px;color: #FBFCF7"><i class="step fi-widget" style="font-size: 24px"></i>Settings Projects</a>
+                </li>
+
+            </ul>
+        </li>
+
+
+    </ul>
+{% endblock %}
+{% block workspace %}
+
+
+    {% if performancetype | length == null %}
+        <form action="{{ path('perfromance_creation', {'projectname': app.request.attributes.get('projectname') }) }}" name="formperformance" method="post">
+        <div class="row">
+
+            <h3 style="text-align: center; color: #169cee; font-weight: bold">Project Preformance</h3>
+            <p style="text-align: center; color: #FAFBF6">Select Type of Performane for this project.</p>
+
+                <div class="row">
+                    <div class="large-10 large-offset-1 columns accountinfo">
+                        <div class=" large-6 columns accountinfolabel">
+                            <div style="font-weight: 700;">Change your project performance</div>
+                            <div style="margin-top: 5px; line-height: 13px; font-size: 10px">This is where you can change your project performance.</div>
+                            <div style="margin-top: 5px; line-height: 13px; font-size: 11px;  color:   #ff6600;font-weight: bold">
+                                {#{{ form_errors(edit_form.libellePerformance)}}#}
+                            </div>
+                        </div>
+                        <div class="large-6 columns accountinfolink">
+                            {#<a data-open="accountinfoModal" >#}
+                            {#Change my login information#}
+                            {#</a>#}
+                            {#{{ form_widget(edit_form.libellePerformance)}}#}
+                            <div class="preformanceblock">
+                                <div class="preformancename">
+                                    Cost
+                                </div>
+                                <div class="switch tiny">
+                                    <input class="switch-input" id="Cost" type="checkbox" name="cost">
+                                    <label class="switch-paddle" for="Cost">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="preformanceblock">
+                                <div class="preformancename">
+                                    Reliability
+                                </div>
+                                <div class="switch tiny">
+                                    <input class="switch-input" id="Reliability" type="checkbox" name="reliability">
+                                    <label class="switch-paddle" for="Reliability">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="preformanceblock">
+                                <div class="preformancename">
+                                Responsiveness
+                                </div>
+                                <div class="switch tiny">
+                                    <input class="switch-input" id="Responsiveness" type="checkbox" name="responsiveness">
+                                    <label class="switch-paddle" for="Responsiveness">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="preformanceblock">
+                                <div class="preformancename">
+
+                                    Agility
+                                </div>
+                                <div class="switch tiny">
+                                    <input class="switch-input" id="Agility" type="checkbox" name="agility">
+                                    <label class="switch-paddle" for="Agility">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="preformanceblock">
+                                <div class="preformancename">
+                                Asset Management
+                                </div>
+                                <div class="switch tiny ">
+                                    <input class="switch-input" id="AssetManagement" type="checkbox" name="assetmanagement">
+                                    <label class="switch-paddle" for="AssetManagement">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+        </div>
+        <div class="row large-offset-3 columns" style="position: relative">
+        <div class="large-6  columns">
+            <div class="editprojectinput">
+                <input type="submit" value="Create" class="button hollow success editproject"/>
+            </div>
+        </div>
+
+    </div>
+        </form>
+    {% else %}
+        <div class="row">
+
+            <h3 style="text-align: center; color: #169cee; font-weight: bold">Project Preformance</h3>
+            <p style="text-align: center; color: #FAFBF6">You are select for this project.</p>
+
+            <div class="row">
+                <div class="large-10 large-offset-1 columns accountinfo">
+                    <div class=" large-6 columns accountinfolabel">
+                        <div style="font-weight: 700;">Delete your project performance</div>
+                        <div style="margin-top: 5px; line-height: 13px; font-size: 10px">This is where you can change your project performance.</div>
+                        <div style="margin-top: 5px; line-height: 13px; font-size: 11px;  color:   #ff6600;font-weight: bold">
+                            {#{{ form_errors(edit_form.libellePerformance)}}#}
+                        </div>
+                    </div>
+                    <div class="large-6 columns accountinfolink">
+                        {% for performance in performancetype %}
+                            <div class="performancetype">
+                                {{ performance.libellePerformance|upper }}
+                                {#<i class="step fi-star"></i>#}
+                                <a href="{{ path('perfromance_delete', {'projectname': app.request.attributes.get("projectname"), 'id':performance.id} ) }}">
+                                    <i class="step fi-x" style="color: red"></i>
+                                </a>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    {% endif %}
+
+
+{% endblock %}
+
+
+{#{{ render(controller('QSCORBundle:Performance_Type:edit',#}
+{#{'projectname': projectname, 'id' : performancetype.id})) }}#}

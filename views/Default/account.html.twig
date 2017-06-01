@@ -1,0 +1,238 @@
+{% extends "@QSCOR/Workspace/projects.html.twig" %}
+{% block workspace %}
+
+    <div class="row">
+
+        <h3 style="text-align: center; color: #169cee; font-weight: bold">Account Info</h3>
+        <p style="text-align: center; color: #FAFBF6">Update the personal information linked to this account.</p>
+           <div class="row">
+            <div class="large-8 large-offset-2 columns accountinfo">
+                <div class=" large-6 columns accountinfolabel">
+                    <div style="font-weight: 700;">Change your profile information</div>
+                    <div style="margin-top: 5px; line-height: 13px; font-size: 11px">This is where you can change your email address or username.</div>
+                </div>
+                <div class="large-6 columns accountinfolink">
+                    <a data-open="accountinfoModal" >
+                        Change my login information
+                    </a>
+                </div>
+
+            </div>
+           </div>
+
+
+    {#{{ render(#}
+    {#controller('FOSUserBundle:ChangePassword:changePassword')#}
+    {#)#}
+    {#}}#}
+
+        <div class="reveal modalaction" id="accountinfoModal" data-animation-in="scale-in-down" data-reveal data-close-on-click="false" >
+
+            {#{{ render(#}
+                {#controller('FOSUserBundle:Profile:edit')#}
+                {#)#}
+            {#}}#}
+            <div class="headmodal">
+                <h4>
+                    Change your login information
+                </h4>
+            </div>
+
+            <div class="formModal">
+                {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+
+                <div class="Modalrow">
+
+                    <div class="Modallabel">
+                        {{ form_label(form.username) }}
+                        <div style="font-size: 11px">This is how we’ll reference it.</div>
+                    </div>
+                    <div class="Modalwidget">
+                        {{ form_widget(form.username) }}
+                    </div>
+
+                    <div class="ModalError">
+                        {{ form_errors(form.username) }}
+                    </div>
+
+
+                </div>
+
+
+                <div class="Modalrow">
+
+                    <div class="Modallabel">
+                        {{ form_label(form.email) }}
+                    </div>
+                    <div class="Modalwidget">
+                        {{ form_widget(form.email) }}
+                    </div>
+
+
+                    <div class="ModalError">
+                        {{ form_errors(form.email) }}
+                    </div>
+
+                </div>
+
+
+                <div class="Modalrow">
+
+                    <div class="Modallabel">
+                        {{ form_label(form.current_password) }}
+                    </div>
+                    <div class="Modalwidget">
+                        {{ form_widget(form.current_password) }}
+                    </div>
+                    <div class="ModalError">
+                        {{ form_errors(form.current_password) }}
+                    </div>
+
+                </div>
+
+                {#{{ form_widget(form) }}#}
+                {#{{ form_widget(form) }}#}
+
+                {#{{ form_widget(form) }}#}
+                {#{{ form_widget(form) }}#}
+
+
+
+                <div class="btnModal">
+                    <a href="{{ path('account') }}">
+                    <button  class="hollow button" data-close aria-label="Close modal"  type="button">
+                      Cancel
+                    </button>
+                    </a>
+                    <input type="submit" value="Edit" class="button success"/>
+                </div>
+                {{ form_end(form) }}
+
+            </div>
+            {#<button class="close-button" data-close aria-label="Close modal" type="button"style="color: #FBFCF7">#}
+                {#<span aria-hidden="true">&times;</span>#}
+            {#</button>#}
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 2rem">
+
+        <h3 style="text-align: center; color: #169cee; font-weight: bold">Account Password</h3>
+        <p style="text-align: center; color: #FAFBF6">Update your password information linked to this account.</p>
+        <div class="row">
+            <div class="large-8 large-offset-2 columns accountinfo">
+                <div class=" large-6 columns accountinfolabel">
+                    <div style="font-weight: 700;">Change your password information</div>
+                    <div style="margin-top: 5px; line-height: 13px; font-size: 11px">This is where you can change your password.</div>
+                </div>
+                <div class="large-6 columns accountinfolink">
+                    <a data-open="accountpasswordModal" >
+                        Change my password information
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="reveal modalaction" id="accountpasswordModal" data-animation-in="scale-in-down" data-reveal data-close-on-click="false" >
+
+            {#{{ render(#}
+            {#controller('FOSUserBundle:Profile:edit')#}
+            {#)#}
+            {#}}#}
+            <div class="headmodal">
+                <h4>
+                    Change your password information
+                </h4>
+            </div>
+
+            <div class="formModal">
+                {{ form_start(formpass, { 'action': path('fos_user_change_password'), 'attr': { 'class': 'fos_user_change_password' } }) }}
+
+                <div class="Modalrow">
+
+                    <div class="Modallabel">
+                        {{ form_label(formpass.current_password) }}
+                    </div>
+                    <div class="Modalwidget">
+                        {{ form_widget(formpass.current_password) }}
+                    </div>
+
+                    <div class="ModalError">
+                        {{ form_errors(formpass.current_password) }}
+                    </div>
+
+
+                </div>
+
+                <div class="Modalrow">
+
+                    <div class="Modallabel">
+                        {{ form_label(formpass.plainPassword.first) }}
+                    </div>
+                    <div class="Modalwidget">
+                        {{ form_widget(formpass.plainPassword.first) }}
+                    </div>
+
+                    <div class="ModalError">
+                        {{ form_errors(formpass.plainPassword.first) }}
+                    </div>
+
+
+                </div>
+
+                <div class="Modalrow">
+
+                    <div class="Modallabel">
+                        {{ form_label(formpass.plainPassword.second) }}
+                    </div>
+                    <div class="Modalwidget">
+                        {{ form_widget(formpass.plainPassword.second) }}
+                    </div>
+
+                    <div class="ModalError">
+                        {{ form_errors(formpass.plainPassword.second) }}
+                    </div>
+
+
+                </div>
+                <div class="btnModal">
+                    <a href="{{ path('account') }}">
+                        <button  class="hollow button" data-close aria-label="Close modal"  type="button">
+                            Cancel
+                        </button>
+                    </a>
+                    <input type="submit" value="Edit" class="button success"/>
+                </div>
+                {{ form_end(formpass) }}
+
+            </div>
+            {#<button class="close-button" data-close aria-label="Close modal" type="button"style="color: #FBFCF7">#}
+            {#<span aria-hidden="true">&times;</span>#}
+            {#</button>#}
+        </div>
+    </div>
+
+    {#</div>#}
+<script type="text/javascript">
+
+//    $(window).load(function(){
+//            $('.reveal').show();
+//    })
+$(document).ready(function(){
+//
+//    MotionUI.animateIn('#accountinfoModal', 'slide-in-down');
+    var test = {{ error }};
+    if(test == 1){
+        $('#accountinfoModal').foundation('open');
+    }else if(test == 2){
+        $('#accountpasswordModal').foundation('open');
+    }
+})
+
+</script>
+
+
+
+
+{% endblock %}
